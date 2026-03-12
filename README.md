@@ -47,7 +47,7 @@ It combines:
 
 ## 🏗️ Architecture
 
-![ScholarLens AI Architecture](ScholarlensAI arch.gif)
+![Architecture](ScholarlensAI arch.gif)
 
 The system runs as **two independent microservices** that communicate over HTTP.
 
