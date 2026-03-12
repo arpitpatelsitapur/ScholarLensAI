@@ -46,8 +46,9 @@ It combines:
 ---
 
 ## 🏗️ Architecture
-
-![Architecture](ScholarlensAI arch.gif)
+<div align="center">
+     <img src="ScholarlensAI arch.gif" alt="Architecture" width="2160"/>
+  </div>
 
 The system runs as **two independent microservices** that communicate over HTTP.
 
