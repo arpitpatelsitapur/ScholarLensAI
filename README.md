@@ -12,7 +12,7 @@
 
 *Discover papers semantically. Chat with them intelligently. Bookmark what matters.*
 
-[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Challenges](#-challenges-solved)
+[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Challenges](#-Challenges I faced and Solved)
 
 </div>
 
