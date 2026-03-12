@@ -126,7 +126,7 @@ For each paper, the pipeline runs once and caches the result:
 - [Groq API](https://groq.com) — ultra-fast LLM inference
 - [Llama 3.1](https://llama.meta.com) — underlying language model
 
-**Data**
+**Data Preprocessing**
 - [PyMuPDF](https://pymupdf.readthedocs.io) — PDF text extraction
 - Pandas + NumPy — data processing
 
@@ -142,7 +142,7 @@ For each paper, the pipeline runs once and caches the result:
 
 ### Prerequisites
 - Python 3.10+
-- A [Groq API key](https://console.groq.com) (free tier available)
+- A [Groq API key](https://console.groq.com) (free tier)
 - Google OAuth credentials (for login)
 
 ---
@@ -226,7 +226,11 @@ What are the limitations mentioned by the authors?
 
 ---
 
-## 🧩 Challenges Solved
+## Some Screenshots
+
+
+
+## Challenges I faced and Solved
 
 | Challenge | Solution |
 |---|---|
@@ -239,7 +243,7 @@ What are the limitations mentioned by the authors?
 
 ---
 
-## ⚠️ Known Limitations
+## Limitations that I know this has
 
 - Only works for papers with publicly accessible PDF URLs
 - Index building takes 15–30s for the first load of a large paper
@@ -248,23 +252,6 @@ What are the limitations mentioned by the authors?
 
 ---
 
-## 🔭 Future Improvements
-
-- [ ] Multi-paper cross-document search
-- [ ] Streaming chat responses (Server-Sent Events)
-- [ ] Automatic paper summarization on open
-- [ ] Research graph: visualize paper citation networks
-- [ ] Background job queue for index building (Celery / RQ)
-- [ ] Cloud deployment (Railway / Render / AWS)
-- [ ] Upgrade to a persistent vector DB (Qdrant / Chroma)
-- [ ] Better chat UI with message history
-
----
-
-## 👤 Author
-
-**Arpit Patel**
-B.Tech Information Technology — Guru Ghasidas University, Graduated May 2025
 
 [![GitHub](https://img.shields.io/badge/GitHub-arpitpatelsitapur-181717?style=flat&logo=github)](https://github.com/arpitpatelsitapur)
 
