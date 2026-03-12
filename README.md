@@ -227,7 +227,15 @@ What are the limitations mentioned by the authors?
 ---
 
 ## Some Screenshots
-
+<p align="center">
+  <img src="screenshots/home1.png" width="400"/>
+  <img src="screenshots/about1.png" width="400"/>
+  <img src="screenshots/about1.png" width="400"/>
+  <img src="screenshots/profile.png" width="400"/>
+  <img src="screenshots/dashboard1.png" width="400"/>
+  <img src="screenshots/bookmark1.png" width="400"/>
+  <img src="screenshots/chat1.png" width="400"/>
+</p>
 
 
 ## Challenges I faced and Solved
