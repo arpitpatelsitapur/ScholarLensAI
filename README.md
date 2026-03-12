@@ -47,30 +47,7 @@ It combines:
 
 ## 🏗️ Architecture
 
-```
-User
- │
- ▼
-Frontend (Jinja2 Templates)
- │
- ▼
-FastAPI Backend (port 8000)
- │
- ├── Auth Module (Google OAuth2)
- ├── User Module (interests, bookmarks)
- ├── Recommendation Engine
- │     └── SPECTER2 embeddings + cosine similarity
- │
- └── RAG Microservice (port 8001)
-        │
-        ├── PDF Downloader
-        ├── Text Extractor (PyMuPDF)
-        ├── Chunker
-        ├── Embedder (SentenceTransformers)
-        ├── FAISS Vector Index (per-paper)
-        ├── Retriever (top-k chunks)
-        └── Groq LLM (Llama 3.1) → Answer
-```
+![ScholarLens AI Architecture](ScholarlensAI arch.gif)
 
 The system runs as **two independent microservices** that communicate over HTTP.
 
