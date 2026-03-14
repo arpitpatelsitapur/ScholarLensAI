@@ -22,6 +22,8 @@
 
 ScholarLens AI is an intelligent research assistant that bridges the gap between **finding** academic papers and **understanding** them.
 
+https://github.com/user-attachments/assets/bbd6862d-0f27-4a99-82aa-29050f407581
+
 It combines:
 - 📡 **Semantic paper recommendation** via SPECTER2 embeddings
 - 💬 **RAG-based paper chat** — ask questions, get answers from the actual paper
@@ -29,10 +31,6 @@ It combines:
 - 🔐 **Google OAuth** authentication
 
 > Instead of skimming 20-page PDFs, just ask: *"What is the main contribution of this paper?"*
-
-[![Watch the video](https://img.youtube.com/vi/ZqzF9fzTztE/0.jpg)](https://www.youtube.com/watch?v=ZqzF9fzTztE)
-
-https://github.com/user-attachments/assets/bbd6862d-0f27-4a99-82aa-29050f407581
 
 ---
 
