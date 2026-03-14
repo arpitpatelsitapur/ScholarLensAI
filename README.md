@@ -32,6 +32,10 @@ It combines:
 
 [![Watch the video](https://img.youtube.com/vi/ZqzF9fzTztE/0.jpg)](https://www.youtube.com/watch?v=ZqzF9fzTztE)
 
+<video controls width="800">
+  <source src="assets/demo.mp4" type="video/mp4">
+</video>
+
 ---
 
 ## ✨ Features
