@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - ScholarLens AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <a href="/profile" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="/profile" class="active">Profile</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/bookmarks">Bookmarks</a></li>
+            </ul>
+
+            <div class="right-section">
+                {% if not user %}
+                <a href="/login" class="gs-btn">🔍 Get Started</a>
+                {% else %}
+                <a href="/profile" class="username">
+                    {{ user.name }}
+                    <img src="{{ user.picture }}" alt="{{ user.name }}" class="profile-pic">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Profile Section -->
+    <section class="profile-section">
+        <div class="container">
+
+            {% if not user %}
+            <!-- Not Logged In -->
+            <h1 class="section-title">Login Required</h1>
+            <p class="section-description">Please log in to view or edit your profile.</p><br>
+            <a href="/login" class="cta-button">Login with Google</a>
+
+            {% elif new_user %}
+            <!-- New User Setup -->
+            <h1 class="section-title">Welcome {{ user.name }}</h1>
+            <p class="section-description">Select your research interests to personalize your recommendations.</p>
+
+            {% include "interests_form.html" %}
+
+            {% elif edit_mode %}
+            <!-- EDIT MODE -->
+            <h1 class="section-title">Edit Your Research Interests</h1>
+            <p class="section-description">Modify your interests to refresh your recommendations.</p>
+
+            {% include "interests_form.html" %}
+
+            <a href="/profile" class="cta-button" style="margin-top:20px;background:#444;">Cancel</a>
+
+            {% else %}
+            <!-- Normal Profile Page -->
+            <h1 class="section-title">Profile Details</h1>
+            <p class="section-description">Manage your personal information and research interests.</p>
+
+            <div class="profile-details-card">
+                <div class="detail-row">
+                    <span class="detail-label">Name</span>
+                    <span class="detail-value">{{ user.name }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Email</span>
+                    <span class="detail-value">{{ user.email }}</span>
+                </div>
+
+                <div class="detail-row interests-row">
+                    <span class="detail-label">Research Interests</span>
+                    <div class="interests-list">
+                        {% for interest in user.interests.split(',') %}
+                        <span class="interest-tag">{{ interest.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="action-buttons">
+                <a href="/profile/edit_interests" class="cta-button">Edit Interests</a>
+                <a href="/dashboard" class="cta-button">Explore Papers</a>
+                <a href="/bookmarks" class="cta-button">Bookmarks</a>
+                <a href="/logout" class="cta-button">Logout</a>
+            </div>
+
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <a href="/profile" class="logo">
+                    <img src="/static/assets/logo/logo.png" alt="">
+                </a>
+                <p>Revolutionizing Search for Scholars</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                &copy; 2025 ScholarLens AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

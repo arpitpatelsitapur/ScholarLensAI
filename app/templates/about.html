@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - ScholarLens AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <a href="/" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <!-- Home -->
+                <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+
+                <!-- Login / Logout -->
+                {% if not user %}
+                <li><a href="/login" class="{% if request.path == '/login' %}active{% endif %}">Login</a></li>
+                {% else %}
+                <li><a href="/logout" class="{% if request.path == '/logout' %}active{% endif %}">Logout</a></li>
+                {% endif %}
+
+                <!-- About -->
+                <li><a href="/about" class="{% if request.path == '/about' %}active{% endif %}">About</a></li>
+            </ul>
+
+            <div class="right-section">
+                {% if not user %}
+                <a href="/login" class="gs-btn">🔍 Get Started</a>
+                {% else %}
+                <a href="/profile" class="username">
+                    {{ user.name }}
+                    <img src="{{ user.picture }}" alt="{{ user.name }}'s profile picture" class="profile-pic">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <h1 class="section-title">About ScholarLens AI</h1><br>
+
+            <div class="about-cards">
+                <div class="about-card profile-details-card">
+                    <div class="detail-row">
+                        <span class="detail-label">Our Mission</span>
+                        <span class="detail-value"><i>ScholarLens AI</i>aims to revolutionize how researchers discover
+                            and interact with academic literature by leveraging the power of artificial intelligence.</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">The Challenge</span>
+                        <span class="detail-value">With millions of research papers published every year, finding relevant literature has become
+                            increasingly challenging. Researchers often spend countless hours searching for papers related to
+                            their work, potentially missing important contributions.</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Our Solution</span>
+                        <span class="detail-value">ScholarLens AI uses advanced machine learning algorithms to analyze research papers and match them
+                            with your specific interests and research focus. Our platform not only recommends relevant papers
+                            but also allows you to interact with them through our innovative "Chat with Paper" feature.</span>
+                    </div>
+
+                    <div class="detail-row feature-row">
+                        <span class="detail-label">Key Features</span>
+                        <div class="detail-value features-list">
+                            <span class="interest-tag">Personalized Recommendations</span>
+                            <span class="interest-tag">Interactive Paper Chat</span>
+                            <span class="interest-tag">Bookmark System</span>
+                            <span class="interest-tag">Research Updates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-section">
+                <h2 class="section-title">Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="/static/assets/img/pf_arpit_patel.png" alt="Team Member">
+                        <h3>Arpit Patel</h3>
+                        <p>Creator & AI Researcher</p>
+                    </div>
+
+                    <!-- <div class="team-member">
+                        <img src="member.png" alt="Team Member">
+                        <h3>Member Name</h3>
+                        <p>Member Position</p>
+                    </div>
+
+                    <div class="team-member">
+                        <img src="member.png" alt="Team Member">
+                        <h3>Member Name</h3>
+                        <p>Member Position</p>
+                    </div>
+
+                    <div class="team-member">
+                        <img src="member.png" alt="Team Member">
+                        <h3>Member Name</h3>
+                        <p>Member Position</p>
+                    </div>
+                </div>-->
+            </div><br>
+
+            
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container"><br><br>
+            <h2 class="section-title">Ready to Enhance Your Research?</h2>
+            <p>Join thousands of readers already using ScholarLens AI to discover relevant papers and accelerate
+                their research.</p><br>
+            {% if not user %}
+            <a href="/profile" class="cta-button">🔍 Get Started</a>
+            {% else %}
+            <a href="/dashboard" class="cta-button">Explore Papers</a>
+            {% endif %}
+        </div><br>
+
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <p>Feedback or suggestions? We'd love to hear from you — your input helps shape ScholarLens AI.</p><br>
+            <p><strong>Email:</strong> <a href="mailto:contact@scholarlens.ai">contact@scholarlens.ai</a></p><br><br>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <a href="/" class="logo">
+                    <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+                </a>
+                <p>Revolutionizing Search for Scholars</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://github.com/arpitpatelsitapur"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/arpit-patel-b17416229/"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div class="container">
+                &copy; 2023 ScholarLens AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat · {{ paper.title or "Research Paper" }} · ScholarLens AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Static CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/chat.css') }}">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Paper info -->
+        <aside class="sidebar">
+            <a href="/profile" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <!-- Expander wrapper -->
+            <div class="sidebar-expander">
+                <!-- Expander button (visible on mobile, hidden on desktop) -->
+                <button type="button" class="sidebar-expander-toggle" onclick="toggleSidebarDetails()">
+                    Paper details
+                    <span class="chevron">⌄</span>
+                </button>
+
+                <!-- Sidebar content (always visible on desktop, collapsible on mobile) -->
+                <div class="sidebar-content">
+                    <div class="sidebar-section">
+                        <div class="paper-meta">
+                            <div class="meta-label">Authors</div>
+                            <div class="meta-value">
+                                {{ paper.authors or "N/A" }}
+                            </div>
+
+                            <div class="meta-label">Category</div>
+                            <div class="meta-value">
+                                {{ paper.category or "N/A" }}
+                            </div>
+
+                            <div class="meta-label">Source</div>
+                            <div class="meta-value">
+                                {{ paper.source or "N/A" }}{% if paper.month_year %} · {{ paper.month_year }}{% endif %}
+                            </div>
+
+                            <div class="meta-label">Links</div>
+                            <div class="meta-value links">
+                                {% if paper.url %}
+                                <a href="{{ paper.url }}" target="_blank" rel="noopener">Open page</a>
+                                {% endif %}
+                                {% if paper.pdf_url %}
+                                <a href="{{ paper.pdf_url }}" target="_blank" rel="noopener">Open PDF</a>
+                                {% else %}
+                                <span class="link-disabled">PDF not available</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h2>Abstract</h2>
+                        <div class="paper-meta">
+                            <div class="meta-value meta-abstract">
+                                {{ paper.abstract or "No abstract available." }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h2>Chat Settings</h2>
+                        <div class="settings-row">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked disabled>
+                                <span>Use paper context (RAG)</span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked>
+                                <span>Show cited sections</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h2>Actions</h2>
+                        <a href="/dashboard" class="back-button">← Back to dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-layout">
+            <header class="chat-header">
+                <div>
+                    <h1>{{ paper.title }}</h1>
+                    <p class="chat-subtitle">
+                        Ask questions about this research paper. The assistant will answer using its content
+                        {% if not paper.pdf_url %}(when available).{% endif %}
+                    </p>
+                </div>
+                <div class="chat-header-tag">
+                    Paper ID: {{ paper.paper_id }}
+                </div>
+            </header>
+
+            <!-- If PDF not available, show a big banner -->
+            {% if not paper.pdf_url %}
+            <section class="unavailable-banner">
+                <div class="unavailable-icon">!</div>
+                <div class="unavailable-texts">
+                    <h2>We’re sorry, we couldn’t access this paper’s full content.</h2>
+                    <p>
+                        This paper does not have a valid <code>pdf_url</code> in our database.
+                        RAG-based answers are disabled for this paper.
+                    </p>
+                    <p class="hint">
+                        You can still open the main link (if available) from the sidebar, or choose another paper from
+                        the dashboard.
+                    </p>
+                </div>
+            </section>
+            {% endif %}
+
+            <section class="chat-window" id="chat-window">
+
+                <!-- Initial system message -->
+                {% if paper.pdf_url %}
+                <div class="message-row bot">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-bubble">
+                        <div class="message-meta">
+                            <span class="sender">ScholarLens</span>
+                            <span class="time">Now</span>
+                        </div>
+                        <div class="message-text">
+                            Hi! I’m your research assistant. I’ll answer using the content of this paper. You can ask
+                            for a summary, specific sections, methods, results, or limitations.
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="message-row bot">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-bubble">
+                        <div class="message-meta">
+                            <span class="sender">ScholarLens</span>
+                            <span class="time">Now</span>
+                        </div>
+                        <div class="message-text">
+                            I don’t have access to this paper’s PDF or full text, so I can’t run RAG over it.
+                            Please go back to the dashboard and pick a paper with a PDF available.
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Chat history -->
+                {% if chat_messages %}
+                {% for msg in chat_messages %}
+                <div class="message-row {{ msg.role }}">
+                    <div class="message-avatar">
+                        {% if msg.role == "user" %}
+                        You
+                        {% else %}
+                        AI
+                        {% endif %}
+                    </div>
+
+                    <div class="message-bubble">
+                        <div class="message-meta">
+                            <span class="sender">
+                                {% if msg.role == "user" %}
+                                You
+                                {% else %}
+                                ScholarLens
+                                {% endif %}
+                            </span>
+                            <span class="time">{{ msg.time }}</span>
+                        </div>
+
+                        <div class="message-text">
+                            {{ msg.content }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </section>
+
+            <!-- Chat Input Area -->
+            <footer class="chat-input-area">
+                <form class="chat-form{% if not paper.pdf_url %} disabled{% endif %}" method="post"
+                    action="/chat/{{ paper.paper_id }}/ask">
+                    <textarea class="chat-input" name="message" rows="1"
+                        placeholder="{% if paper.pdf_url %}Ask something about this paper...{% else %}Chat is disabled for this paper (no PDF).{% endif %}"
+                        {% if not paper.pdf_url %}disabled{% endif %}></textarea>
+
+                    <button type="submit" class="send-button{% if not paper.pdf_url %} disabled{% endif %}" {% if not
+                        paper.pdf_url %}disabled{% endif %}>
+                        <span>Send</span>
+                    </button>
+                </form>
+
+                <div class="chat-helper-text">
+                    {% if paper.pdf_url %}
+                    Tip: Try “Give me a high-level summary”, “Explain the methodology”, or “What are the limitations?”
+                    {% else %}
+                    Tip: Return to the dashboard and choose a paper with a valid PDF link to enable RAG chat.
+                    {% endif %}
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Tiny JS for sidebar expander on mobile -->
+    <script>
+        function toggleSidebarDetails() {
+            const expander = document.querySelector(".sidebar-expander");
+            if (expander) {
+                expander.classList.toggle("open");
+            }
+        }
+    </script>
+</body>
+
+</html>

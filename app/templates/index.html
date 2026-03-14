@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarLens AI - Smart Research Paper Recommendations</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <a href="/" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <!-- Home -->
+                <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+
+                <!-- Login / Logout -->
+                {% if not user %}
+                <li><a href="/login" class="{% if request.path == '/login' %}active{% endif %}">Login</a></li>
+                {% else %}
+                <li><a href="/logout" class="{% if request.path == '/logout' %}active{% endif %}">Logout</a></li>
+                {% endif %}
+
+                <!-- About -->
+                <li><a href="/about" class="{% if request.path == '/about' %}active{% endif %}">About</a></li>
+            </ul>
+
+            <div class="right-section">
+                {% if not user %}
+                <a href="/profile" class="gs-btn">🔍 Get Started</a>
+                {% else %}
+                <a href="/profile" class="username">
+                    {{ user.name }}
+                    <img src="{{ user.picture }}" alt="{{ user.name }}'s profile picture" class="profile-pic">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="instrument-serif-regular">Discover <i>Research Papers</i> Tailored to You</h1>
+            <p class="instrument-serif-regular">ScholarLens AI uses advanced algorithms to recommend the most
+                relevant research papers based on your interests and preferences.</p>
+            {% if not user %}
+            <a href="/profile" class="cta-button">🔍 Get Started</a>
+            {% else %}
+            <a href="/dashboard" class="cta-button">Explore Papers</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">How ScholarLens AI Works</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Smart Recommendations</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Our AI analyzes thousands of research papers to find the ones most relevant to your interests
+                            and research focus.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Bookmark Favourites</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Save your favourite papers for later for quick go-through.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Stay Updated</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Get notified when new papers in your field are published, ensuring you never miss important
+                            research.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Chat with Papers</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Ask questions directly to any research paper and get instant answers based on the paper's
+                            content (For Premium Members Only).</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sources Section -->
+    <section class="sources-section">
+        <div class="container">
+            <div class="sources-header">
+                <h2 class="section-title sources-title">Sources</h2>
+            </div>
+            <div class="sources-container">
+                <div class="source-item">
+                    <img src="/static/assets/logo/arxiv_logo.jpg" alt="arXiv" class="source-logo">
+                    <span>arXiv</span>
+                </div>
+                <div class="source-item">
+                    <img src="/static/assets/logo/ieee_logo.png" alt="IEEE" class="source-logo">
+                    <span>IEEE</span>
+                </div>
+                <div class="source-item">
+                    <img src="/static/assets/logo/scidirect_logo.png" alt="ScienceDirect" class="source-logo">
+                    <span>ScienceDirect</span>
+                </div>
+                <div class="source-item">
+                    <img src="/static/assets/logo/anthropic_logo.jpg" alt="Anthropic" class="source-logo">
+                    <span>Anthropic</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section class="faq-section">
+        <div class="faq-container">
+            <!-- Left Heading -->
+            <div class="faq-left">
+                <h2 class="section-title">Frequently<br>Asked<br>Questions</h2>
+            </div>
+
+            <!-- Right FAQ List -->
+            <div class="faq-right">
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            How does ScholarLens AI find and recommend papers?
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>ScholarLens AI analyzes paper metadata and content using embedding-based search and
+                                machine
+                                learning models to surface papers that match your interests. It combines keyword
+                                relevance,
+                                citation context, and semantic similarity to rank recommendations.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            Can I chat with a paper and ask questions about its content?
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes — the "Chat with Paper" feature lets you ask natural-language questions about a
+                                paper's abstract
+                                and content. It's powered by an LLM that summarizes and answers based on the paper text
+                                (currently a demo implementation).</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            Where do the papers come from?
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We aggregate and link to papers from popular sources such as arXiv, IEEE, ScienceDirect,
+                                and Anthropic.
+                                (Note: Anthropic mainly focuses on AI model case studies and evaluations.)</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            How do bookmarks and saved papers work?
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Bookmarks are stored locally in your browser (localStorage) for the demo. In production,
+                                server-side
+                                syncing with user accounts will be available.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            Is my data and activity private?
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>All local actions like bookmarks are stored in your browser. No personal data is shared
+                                externally in
+                                this demo. Any production setup will include a privacy policy for user data.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            How good are the recommendations and can they be customized?
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Recommendations improve with better input (e.g., interest tags, saved papers). Future
+                                updates will
+                                include personalization and feedback loops for enhanced results.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container"><br><br>
+            <h2 class="section-title">Ready to Enhance Your Research?</h2>
+            <p>Join thousands of readers already using ScholarLens AI to discover relevant papers and accelerate
+                their research.</p><br>
+            {% if not user %}
+            <a href="/profile" class="cta-button">🔍 Get Started</a>
+            {% else %}
+            <a href="/dashboard" class="cta-button">Explore Papers</a>
+            {% endif %}
+        </div><br>
+
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <p>Feedback or suggestions? We'd love to hear from you — your input helps shape ScholarLens AI.</p><br>
+            <p><strong>Email:</strong> <a href="mailto:contact@scholarlens.ai">contact@scholarlens.ai</a></p><br><br>
+        </div>
+    </section>
+
+    <script>
+        const faqBtns = document.querySelectorAll(".faq-question");
+        faqBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const parent = btn.parentElement;
+                parent.classList.toggle("active");
+
+                const expanded = btn.getAttribute("aria-expanded") === "true";
+                btn.setAttribute("aria-expanded", !expanded);
+                btn.querySelector(".icon").textContent = expanded ? "+" : "–";
+            });
+        });
+    </script>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <a href="/" class="logo">
+                    <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+                </a>
+                <p>Revolutionizing Search for Scholars</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://github.com/arpitpatelsitapur"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/arpit-patel-b17416229/"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div class="container">
+                &copy; 2023 ScholarLens AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

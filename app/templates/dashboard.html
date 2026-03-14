@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ScholarLens AI</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <a href="/profile" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="/profile" class="{% if request.path == '/profile' %}active{% endif %}">Profile</a></li>
+                <li><a href="/dashboard" class="active">Dashboard</a></li>
+                <li><a href="/bookmarks">Bookmarks</a></li>
+            </ul>
+
+            <div class="right-section">
+                {% if not user %}
+                <a href="/login" class="gs-btn">🔍 Get Started</a>
+                {% else %}
+                <a href="/profile" class="username">
+                    {{ user.name }}
+                    <img src="{{ user.picture }}" alt="{{ user.name }}'s profile picture" class="profile-pic">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+
+            {% if not user %}
+            <h1 class="section-title">Login Required</h1>
+            <p>Please log in to view your dashboard.</p>
+            <a href="/login" class="cta-button">Login with Google</a>
+
+            {% else %}
+
+            <!-- ============ FILTER BOX ============== -->
+            <form action="/dashboard/filter" method="post" class="filter-box">
+                <div class="filter-header">
+                    <h3>Want Research Papers Particular to a Category or Topic?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+
+                <div class="filter-content">
+
+                    <label>Select Filter Type</label>
+                    <select name="filter_type" id="filter-type" class="filter-select" required>
+                        <option value="">-- Select --</option>
+                        <option value="category">Category</option>
+                        <option value="topic">Topic</option>
+                    </select>
+
+                    <div id="category-box" class="hidden">
+                        <label>Select Category</label>
+                        <select name="category_value" id="category-select" class="filter-select">
+                            <option value="">-- Choose Category --</option>
+                            <option>Algorithms</option>
+                            <option>Cybersecurity</option>
+                            <option>Deep Learning</option>
+                            <option>Machine Learning</option>
+                            <option>Natural Language Processing</option>
+                            <option>Quantum Computing</option>
+                            <option>Reinforcement Learning</option>
+                            <option>Robotics</option>
+                            <option>Statistics</option>
+                        </select>
+                    </div>
+
+                    <div id="topic-box" class="hidden">
+                        <label>Enter Topic</label>
+                        <input name="topic_value" id="topic-input" type="text"
+                            placeholder="e.g., transformers, LLMs, GANs" class="filter-input">
+                    </div>
+
+                    <label>Max Number of Research Papers</label>
+                    <input type="number" name="max_limit" class="filter-input" placeholder="Default: 25" min="1"
+                        max="200">
+
+                    <button type="submit" class="filter-btn">Search Papers</button>
+                </div>
+            </form>
+
+            <!-- ============ FILTERED RESULTS SECTION ============== -->
+            {% if filtered_results %}
+            <div class="filtered-results-section">
+                <h2 class="section-title">Filtered Results : Recommended for You ({{ filter_info }})</h2>
+
+                <div class="table-responsive">
+                    <table class="papers-table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Title</th>
+                                <th>Authors</th>
+                                <th>Month_Year</th>
+                                <th>Category</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for paper in filtered_results %}
+                            <tr class="paper-row">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ paper.title }}</td>
+                                <td>{{ paper.authors or 'N/A' }}</td>
+                                <td>{{ paper.month_year or 'N/A' }}</td>
+                                <td>{{ paper.category }}</td>
+                                <td>
+                                    <button class="source-button {{ paper.source }}">
+                                        {{ paper.source | capitalize }}
+                                    </button>
+                                </td>
+                                <td>
+                                    <a href="{{ paper.url }}" class="action-btn view-btn" target="_blank">View</a>
+                                    <a href="/bookmark/add/{{ paper.paper_id }}"
+                                        class="action-btn bookmark-btn">Bookmark</a>
+                                    <a href="/chat/{{ paper.paper_id }}" class="action-btn chat-btn">
+                                        Chat
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+            <!-- END FILTERED RESULTS -->
+
+            <!-- ============ ORIGINAL DASHBOARD ============== -->
+            <div class="dashboard-header">
+                <h1 class="section-title">Top Research Papers</h1>
+                <div class="table-info">
+                    <i class="fas fa-info-circle"></i> Click ▼ beside any paper title to expand its abstract.
+                </div>
+            </div><br>
+
+            <!-- Category Tabs -->
+            <div class="table-tabs" role="tablist">
+                <!-- <button class="table-tab active" data-target="new"> New</button> -->
+                <button class="table-tab active" data-target="must_read"> Must-Read</button>
+                <button class="table-tab" data-target="arxiv"> arXiv</button>
+                <button class="table-tab" data-target="anthropic"> Anthropic</button>
+                <button class="table-tab" data-target="ieee"> IEEE</button>
+                <button class="table-tab" data-target="others"> Others</button>
+                <button class="table-tab" data-target="free"> Free</button>
+                <button class="table-tab" data-target="not_free"> Not Free</button>
+            </div>
+
+            <!-- Papers Tables -->
+            <div class="tables-wrapper">
+                {% for category, papers in papers_data.items() %}
+                <div class="table-panel {% if category == 'new' %}active{% endif %}" data-panel="{{ category }}">
+                    <div class="table-responsive">
+                        <table class="papers-table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Title</th>
+                                    <th>Authors</th>
+                                    <th>Month_Year</th>
+                                    <th>Category</th>
+                                    <th>Source</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if papers %}
+                                {% for paper in papers %}
+                                <tr class="paper-row" data-paper-id="{{ paper.paper_id }}">
+                                    <td>{{ loop.index }}</td>
+                                    <td class="paper-title">
+                                        <div class="title-with-arrow">
+                                            <span>{{ paper.title }}</span>
+                                            <span class="toggle-arrow">▼</span>
+                                        </div>
+                                    </td>
+                                    <td>{{ paper.authors or 'N/A' }}</td>
+                                    <td>{{ paper.month_year or 'N/A' }}</td>
+                                    <td>{{ paper.category or 'N/A' }}</td>
+                                    <td>
+                                        <button class="source-button {{ paper.source }}">
+                                            {{ paper.source | capitalize }}
+                                        </button>
+                                    </td>
+                                    <td class="action-buttons">
+                                        <a href="{{ paper.url }}" class="action-btn view-btn" target="_blank">View</a>
+                                        <a href="/bookmark/add/{{ paper.paper_id }}"
+                                            class="action-btn bookmark-btn">Bookmark</a>
+                                        <a href="/chat/{{ paper.paper_id }}" class="action-btn chat-btn">
+                                            Chat
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr class="abstract-row" id="abstract-{{ paper.paper_id }}">
+                                    <td colspan="7">
+                                        <div class="abstract-content">
+                                            <h4>Abstract:</h4>
+                                            <p>{{ paper.abstract or 'Abstract not available.' }}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="7">Based on your interests, no papers found in this category.</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <a href="/profile" class="logo">
+                    <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+                </a>
+                <p>Revolutionizing Search for Scholars</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://github.com/arpitpatelsitapur"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/arpit-patel-b17416229/"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div class="container">
+                &copy; 2025 ScholarLens AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top"><i class="fas fa-arrow-up"></i></div>
+
+    <!-- Main JS -->
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

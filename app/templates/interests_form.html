@@ -1,0 +1,26 @@
+<form method="post" action="/profile/save" id="profile-form" class="profile-form">
+
+    <div class="checkbox-group">
+
+        {% set all_interests = [
+            "Machine Learning","Deep Learning","Natural Language Processing",
+            "Reinforcement Learning","Cybersecurity","Data Science",
+            "Quantum Computing","Internet of Things","Bioinformatics",
+            "Graph Theory","Probability","Statistics",
+            "Augmented Reality","Virtual Reality","Robotics","Algorithms"
+        ] %}
+
+        {% for interest in all_interests %}
+        <div class="checkbox-item">
+            <input type="checkbox" name="interests"
+                   value="{{ interest }}"
+                   {% if selected_interests and interest in selected_interests %}checked{% endif %}>
+            <label>{{ interest }}</label>
+        </div>
+        {% endfor %}
+
+    </div><br>
+
+    <button type="submit" class="cta-button">Save Interests</button>
+
+</form>

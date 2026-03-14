@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarks - ScholarLens AI</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <a href="/profile" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="/profile" class="{% if request.path == '/profile' %}active{% endif %}">Profile</a></li>
+                <li><a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">Dashboard</a>
+                </li>
+                <li><a href="/bookmarks" class="active">Bookmarks</a></li>
+            </ul>
+
+            <div class="right-section">
+                {% if not user %}
+                <a href="/login" class="gs-btn">🔍 Get Started</a>
+                {% else %}
+                <a href="/profile" class="username">
+                    {{ user.name }}
+                    <img src="{{ user.picture }}" alt="{{ user.name }}" class="profile-pic">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bookmarks Section -->
+    <section class="bookmarks-section">
+        <div class="container">
+
+            {% if not user %}
+            <h1 class="section-title">Login Required</h1>
+            <p class="section-description">Please log in to view your bookmarks.</p><br>
+            <a href="/login" class="cta-button">Login with Google</a>
+
+            {% else %}
+            <div class="bookmarks-header">
+                <h1 class="section-title">Your Bookmarked Papers</h1>
+                <p class="section-description">Access your saved research papers for quick reference.</p>
+            </div>
+
+            <div class="card-grid">
+
+                {% if bookmarks|length == 0 %}
+                <div class="no-bookmarks">
+                    You have no bookmarked papers yet.<br>
+                    Visit the Dashboard to bookmark papers.
+                </div>
+
+                {% else %}
+                {% for paper in bookmarks %}
+                <div class="bookmark-card">
+
+                    <h3 class="bookmark-title">{{ paper.title }}</h3>
+
+                    <p class="bookmark-meta">
+                        <strong>Category:</strong> {{ paper.category | capitalize }} <br>
+                        <strong>Source:</strong> {{ paper.source | capitalize }}
+                    </p>
+
+                    <p class="bookmark-date">
+                        <strong>Bookmarked on:</strong> {{ paper.created_at }}
+                    </p>
+
+                    <div class="bookmark-actions">
+                        <a href="{{ paper.url }}" class="view-button" target="_blank">View Paper</a>
+                        <a href="/chat/{{ paper.paper_id }}" class="chat-btn">Chat</a>
+                        <a href="/bookmark/remove/{{ paper.paper_id }}" class="remove-button">Remove</a>
+                    </div>
+
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <a href="/profile" class="logo">
+                    <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+                </a>
+                <p>Revolutionizing Search for Scholars</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://github.com/arpitpatelsitapur"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/arpit-patel-b17416229/"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div class="container">
+                &copy; 2025 ScholarLens AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - ScholarLens AI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container container">
+            <a href="/" class="logo">
+                <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+            </a>
+
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <!-- Home -->
+                <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+
+                <!-- Login / Logout -->
+                {% if not user %}
+                <li><a href="/login" class="{% if request.path == '/login' %}active{% endif %}">Login</a></li>
+                {% else %}
+                <li><a href="/logout" class="{% if request.path == '/logout' %}active{% endif %}">Logout</a></li>
+                {% endif %}
+
+                <!-- About -->
+                <li><a href="/about" class="{% if request.path == '/about' %}active{% endif %}">About</a></li>
+            </ul>
+
+            <div class="right-section">
+                {% if not user %}
+                <a href="/profile" class="gs-btn">🔍 Get Started</a>
+                {% else %}
+                <a href="/profile" class="username">
+                    {{ user.name }}
+                    <img src="{{ user.picture }}" alt="{{ user.name }}'s profile picture" class="profile-pic">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 404 Error Section -->
+    <section class="error-page">
+        <div class="container">
+            <div class="error-code">404</div>
+            <h1 class="error-message instrument-serif-regular">Page Not Found</h1>
+            <p class="instrument-serif-regular-italic">The page you're looking for doesn't exist or has been moved.</p>
+            
+            <div class="error-actions">
+                <button class="cta-button" onclick="window.history.back()">Go Back</button>
+                <a href="index.html" class="cta-button">Go to Homepage</a>
+            </div>
+            
+            <div class="error-illustration">
+                <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M150 20C80 20 20 80 20 150C20 220 80 280 150 280C220 280 280 220 280 150C280 80 220 20 150 20ZM150 260C90 260 40 210 40 150C40 90 90 40 150 40C210 40 260 90 260 150C260 210 210 260 150 260Z" fill="#93E6EF"/>
+                    <path d="M150 80C130 80 110 90 100 110L120 120C125 110 135 100 150 100C165 100 175 110 180 120L200 110C190 90 170 80 150 80Z" fill="#1A8499"/>
+                    <circle cx="110" cy="140" r="15" fill="#1A8499"/>
+                    <circle cx="190" cy="140" r="15" fill="#1A8499"/>
+                    <path d="M100 180C120 200 180 200 200 180" stroke="#1A8499" stroke-width="8" fill="none"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <a href="/home" class="logo">
+                    <img src="/static/assets/logo/logo.png" alt="ScholarLens AI Logo">
+                </a>
+                <p>Revolutionizing how researchers discover and interact with academic papers.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <div class="container">
+                &copy; 2023 ScholarLens AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
