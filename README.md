@@ -31,7 +31,7 @@ It combines:
 > Instead of skimming 20-page PDFs, just ask: *"What is the main contribution of this paper?"*
 
 <video controls width="700">
-  <source src="https://drive.google.com/file/d/1WeobM_yQX0umsr2gTXkvwHMYOWXSDEpt/view?usp=sharing" type="video/mp4">
+  <source src="https://github.com/arpitpatelsitapur/ScholarLensAI/releases/download/intro/ScholaLensAI.tutorial.mp4" type="video/mp4">
 </video>
 ---
 
