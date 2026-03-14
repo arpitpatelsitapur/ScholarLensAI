@@ -30,7 +30,7 @@ It combines:
 
 > Instead of skimming 20-page PDFs, just ask: *"What is the main contribution of this paper?"*
 
-[! [Watch the video](https://img.youtube.com/vi/ZqzF9fzTztE/0.jpg)](https://www.youtube.com/watch?v=ZqzF9fzTztE)
+[![Watch the video](https://img.youtube.com/vi/ZqzF9fzTztE/0.jpg)](https://www.youtube.com/watch?v=ZqzF9fzTztE)
 
 ---
 
