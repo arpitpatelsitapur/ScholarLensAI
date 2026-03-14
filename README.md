@@ -32,9 +32,7 @@ It combines:
 
 [![Watch the video](https://img.youtube.com/vi/ZqzF9fzTztE/0.jpg)](https://www.youtube.com/watch?v=ZqzF9fzTztE)
 
-<video controls width="800">
-  <source src="ScholarLensAI_intro.mp4" type="video/mp4">
-</video>
+https://github.com/user-attachments/assets/bbd6862d-0f27-4a99-82aa-29050f407581
 
 ---
 
