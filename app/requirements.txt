@@ -1,0 +1,23 @@
+# --- FastAPI app dependencies ---
+fastapi==0.104.1
+uvicorn==0.24.0
+jinja2==3.1.2
+sqlalchemy==2.0.23
+python-dotenv==1.0.0
+httpx==0.25.1
+starlette==0.27.0
+python-multipart==0.0.6
+itsdangerous==2.1.2
+aiosqlite==0.19.0
+
+# --- Recommender dependencies ---
+pandas==2.2.2
+numpy==1.26.4
+torch==2.2.2
+scikit-learn==1.5.2
+feedparser==6.0.10
+
+# --- SPECTER2 / Adapter stack (IMPORTANT) ---
+transformers==4.39.3
+adapters==0.2.1
+huggingface_hub==0.20.3
