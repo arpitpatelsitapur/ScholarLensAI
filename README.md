@@ -30,11 +30,9 @@ It combines:
 
 > Instead of skimming 20-page PDFs, just ask: *"What is the main contribution of this paper?"*
 
-[<video controls width="700">
-  <source src="https://github.com/arpitpatelsitapur/ScholarLensAI/releases/download/intro/ScholaLensAI.tutorial.mp4" type="video/mp4">
-</video>](https://youtu.be/ZqzF9fzTztE)
-
 ![Watch the video](https://youtu.be/ZqzF9fzTztE)
+
+
 ---
 
 ## ✨ Features
