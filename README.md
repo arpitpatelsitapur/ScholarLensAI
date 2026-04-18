@@ -34,7 +34,7 @@ It combines:
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---|---|
@@ -48,7 +48,7 @@ It combines:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 <div align="center">
      <img src="scholarlensai arch.gif" alt="Architecture" width="1000"/>
   </div>
@@ -145,7 +145,7 @@ For each paper, the pipeline runs once and caches the result:
 
 ---
 
-## 🐳 Run with Docker (Recommended)
+## Run with Docker (Recommended)
 
 ScholarLensAI is fully containerized. You can run the complete system using prebuilt Docker images — no Python setup or virtual environments needed.
 
@@ -227,7 +227,7 @@ Then open: 👉 http://localhost:8000
 
 ----------
 
-## 🧪 Usage
+## Usage
 
 1. Open `http://127.0.0.1:8000` in your browser
 2. Log in with Google
