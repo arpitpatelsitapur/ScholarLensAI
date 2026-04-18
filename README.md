@@ -12,7 +12,7 @@
 
 *Discover papers semantically. Chat with them intelligently. Bookmark what matters.*
 
-[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Challenges](#-Challenges-I-faced-and-Solved)
+[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Docker](#-usage) • [Challenges](#-challenges-I-faced-and-Solved)
 
 </div>
 
@@ -203,6 +203,78 @@ uvicorn api:app --port 8001 --reload
 ```
 
 ---
+
+## 🐳 Run with Docker
+
+ScholarLensAI is fully containerized. You can run the complete system using prebuilt Docker images — no Python setup or virtual environments needed.
+
+### 📦 Docker Images
+
+
+| Service      | Image                                      |
+|-------------|--------------------------------------------|
+| App Service | `datadreamer7/scholarlens-app:latest`       |
+| RAG Service | `datadreamer7/scholarlens-rag:latest`       |
+
+### 1. Create `docker-compose.yml`
+
+```yaml
+services:
+  app:
+    image: datadreamer7/scholarlens-app:latest
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - rag_service
+    volumes:
+      - app_data:/app
+
+  rag_service:
+    image: datadreamer7/scholarlens-rag:latest
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    volumes:
+      - rag_data:/rag_service/rag_store
+
+volumes:
+  app_data:
+  rag_data:
+
+```
+
+### 2. Configure Environment Variables
+
+Create a `.env` file in the same directory:
+
+```env
+GROQ_API_KEY=your_api_key
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/callback
+SECRET_KEY=your_secret
+HF_TOKEN=your_token
+```
+
+### 3. Run
+
+```bash
+docker compose up
+
+```
+
+Then open: 👉 http://localhost:8000
+
+### ⚠️ Notes
+
+-   First run may take some time due to model loading
+-   Ensure ports `8000` and `8001` are free on your machine
+-   Both services communicate internally over the Docker network — no manual wiring needed
+
+----------
 
 ## 🧪 Usage
 
