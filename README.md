@@ -12,7 +12,7 @@
 
 *Discover papers semantically. Chat with them intelligently. Bookmark what matters.*
 
-[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Docker](#-usage) • [Challenges](#-challenges-I-faced-and-Solved)
+[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Docker](#-run-with-docker) • [Challenges](#-challenges)
 
 </div>
 
@@ -312,16 +312,29 @@ What are the limitations mentioned by the authors?
 </p>
 
 
-## Challenges I faced and Solved
+## Challenges
 
 | Challenge | Solution |
 |---|---|
-| **Dependency conflicts** between `transformers`, `sentence-transformers`, `huggingface_hub` | Isolated each service into its own virtual environment |
-| **Microservice communication** between main app and RAG service | HTTP calls via `httpx` between FastAPI services |
+| **Dependency conflicts** between `transformers`, `sentence-transformers`, `huggingface_hub` | Isolated each service into separate Docker containers with independent requirements |
+| **Microservice communication** between main app and RAG service | HTTP calls via `httpx` using Docker service name (`http://rag_service:8001`) |
 | **Single-paper RAG** — original pipeline only handled one PDF | Per-paper FAISS index stored at `rag_store/<paper_id>/` |
 | **Noisy PDF extraction** — hyphenation, broken formatting | PyMuPDF + post-extraction text cleaning |
 | **LLM token limits** — large prompts exceeded context window | Chunk truncation, token counting, prompt length control |
 | **Slow re-embedding** on repeated paper visits | Index caching — rebuild only if `faiss.index` doesn't exist |
+| **Large Docker image size** due to ML libraries (`torch`, `transformers`) | Used slim base image + `.dockerignore` to reduce build context |
+| **Docker build failures due to strict versioning** | Relaxed version constraints and resolved incompatible dependencies |
+| **Multi-container orchestration complexity** | Used Docker Compose to manage app + RAG services together |
+| **Environment variable management across services** | Centralized config using `.env` file and `env_file` in Compose |
+| **Database not persisting across container restarts** | Added Docker volumes (`app_data`) for persistent SQLite storage |
+| **RAG index loss after container restart** | Mounted volume (`rag_data`) for persistent FAISS storage |
+| **Broken pipe / timeout while pushing images to Docker Hub** | Switched to local build + `docker push` (chunked upload) instead of `buildx --push` |
+| **Multi-architecture build issues on M1 (ARM)** | Used `buildx` builder setup; simplified to single-arch for reliability |
+| **Module import errors inside container (`ModuleNotFoundError`)** | Fixed working directory and Python import paths in Dockerfile |
+| **SQLite path issues inside container** | Switched to absolute container paths (e.g., `/app/scholarlens.db`) |
+| **Service startup dependency issues (App before RAG)** | Used `depends_on` in Docker Compose |
+| **Initial model loading delay (cold start)** | Documented behavior; accepted as expected for ML models |
+| **Reproducibility across environments** | Provided Docker Compose setup for one-command execution |
 
 ---
 
