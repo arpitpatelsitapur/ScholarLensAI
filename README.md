@@ -12,7 +12,7 @@
 
 *Discover papers semantically. Chat with them intelligently. Bookmark what matters.*
 
-[Features](#-features) • [Architecture](#-architecture) • [Docker](#-run-with-docker) • [Usage](#-usage) • [Challenges](#-challenges)
+[Features](#features) • [Architecture](#architecture) • [Docker](#run-with-docker-recommended) • [Usage](#usage) • [Challenges](#challenges)
 
 </div>
 
