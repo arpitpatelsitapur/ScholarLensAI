@@ -151,7 +151,8 @@ ScholarLensAI is fully containerized. You can run the complete system using preb
 
 ### Demo
 
-Adding soon...
+https://github.com/user-attachments/assets/aad627fe-3e03-4e1c-8bd1-0e1801df3997
+
 
 ### 📦 Docker Images
 
