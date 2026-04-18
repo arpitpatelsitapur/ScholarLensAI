@@ -12,7 +12,7 @@
 
 *Discover papers semantically. Chat with them intelligently. Bookmark what matters.*
 
-[Features](#-features) • [Architecture](#-architecture) • [Setup](#-setup) • [Usage](#-usage) • [Docker](#-run-with-docker) • [Challenges](#-challenges)
+[Features](#-features) • [Architecture](#-architecture) • [Docker](#-run-with-docker) • [Usage](#-usage) • [Challenges](#-challenges)
 
 </div>
 
@@ -44,6 +44,7 @@ It combines:
 | 🔖 **Bookmarks** | Save papers to revisit later |
 | 👤 **Personalization** | Dashboard tailored to your research interests |
 | 🔐 **Google Login** | OAuth2-based secure authentication |
+| 🐳 **Dockerized** | Fully containerized microservices for plug-and-play deployment |
 
 ---
 
@@ -138,85 +139,29 @@ For each paper, the pipeline runs once and caches the result:
 **Auth**
 - Google OAuth2
 
----
-
-## 🚀 Setup
-
-### Prerequisites
-- Python 3.10+
-- A [Groq API key](https://console.groq.com) (free tier)
-- Google OAuth credentials (for login)
+**DevOps / Deployment**
+- [Docker](https://www.docker.com/) — containerization of services
+- Docker Compose — multi-service orchestration (App + RAG)
 
 ---
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/arpitpatelsitapur/ScholarLensAI.git
-cd ScholarLensAI
-```
-
-### 2. Set Up the Main App
-
-```bash
-cd app
-python -m venv recom_env
-source recom_env/bin/activate        # Windows: recom_env\Scripts\activate
-pip install -r requirements.txt
-```
-
-### 3. Set Up the RAG Service
-
-```bash
-# Open a new terminal
-cd rag_service
-python -m venv rag_env
-source rag_env/bin/activate          # Windows: rag_env\Scripts\activate
-pip install -r requirements.txt
-```
-
-### 4. Configure Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-GROQ_API_KEY=your_groq_api_key_here
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-SECRET_KEY=your_session_secret_key
-```
-
-### 5. Run Both Services
-
-**Terminal 1 — Main app:**
-```bash
-cd app
-uvicorn main:app --reload
-# Runs at http://127.0.0.1:8000
-```
-
-**Terminal 2 — RAG service:**
-```bash
-cd rag_service
-uvicorn api:app --port 8001 --reload
-# Runs at http://127.0.0.1:8001
-```
-
----
-
-## 🐳 Run with Docker
+## 🐳 Run with Docker (Recommended)
 
 ScholarLensAI is fully containerized. You can run the complete system using prebuilt Docker images — no Python setup or virtual environments needed.
+
+### Demo
+
+Adding soon...
 
 ### 📦 Docker Images
 
 
 | Service      | Image                                      |
 |-------------|--------------------------------------------|
-| App Service | `datadreamer7/scholarlens-app:latest`       |
-| RAG Service | `datadreamer7/scholarlens-rag:latest`       |
+| [App Service](https://hub.docker.com/r/datadreamer7/scholarlens-app) | `datadreamer7/scholarlens-app:latest`       |
+| [RAG Service](https://hub.docker.com/r/datadreamer7/scholarlens-rag) | `datadreamer7/scholarlens-rag:latest`       |
 
-### 1. Create `docker-compose.yml`
+### 1. Open New folder and Create `docker-compose.yml`
 
 ```yaml
 services:
@@ -259,11 +204,17 @@ SECRET_KEY=your_secret
 HF_TOKEN=your_token
 ```
 
-### 3. Run
+### 3. Pull Docker Images
+
+```
+docker pull datadreamer7/scholarlens-app:latest
+docker pull datadreamer7/scholarlens-rag:latest
+```
+
+### 4. Run
 
 ```bash
 docker compose up
-
 ```
 
 Then open: 👉 http://localhost:8000
@@ -282,9 +233,8 @@ Then open: 👉 http://localhost:8000
 2. Log in with Google
 3. Set your research interests in your profile
 4. Browse recommended papers on the dashboard
-5. Click any paper → open **"Chat with Paper"**
-6. Ask questions like:
-
+5. Click any paper to Read(View), Bookmark
+6. Click **"Chat"** for questions like:
 ```
 What is the main contribution of this paper?
 What datasets were used for evaluation?
@@ -347,8 +297,6 @@ What are the limitations mentioned by the authors?
 
 ---
 ## Any Improvements/Suggestions are welcomed, just Fork the repo and play with it. Remember I used Microservices system so there are 2 virtual environments here.
-
-[![GitHub](https://img.shields.io/badge/GitHub-arpitpatelsitapur-181717?style=flat&logo=github)](https://github.com/arpitpatelsitapur)
 
 ---
 
